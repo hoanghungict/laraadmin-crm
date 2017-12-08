@@ -22,7 +22,7 @@ use App\Models\Project;
 class ProjectsController extends Controller
 {
 	public $show_action = true;
-	
+
 	/**
 	 * Display a listing of the Projects.
 	 *
@@ -31,7 +31,7 @@ class ProjectsController extends Controller
 	public function index()
 	{
 		$module = Module::get('Projects');
-		
+
 		if(Module::hasAccess($module->id)) {
 			return View('la.projects.index', [
 				'show_actions' => $this->show_action,
@@ -62,22 +62,23 @@ class ProjectsController extends Controller
 	public function store(Request $request)
 	{
 		if(Module::hasAccess("Projects", "create")) {
-		
+
 			$rules = Module::validateRules("Projects", $request);
-			
+
 			$validator = Validator::make($request->all(), $rules);
-			
+
 			if ($validator->fails()) {
 				return redirect()->back()->withErrors($validator)->withInput();
 			}
-			
+
 			$insert_id = Module::insert("Projects", $request);
-			
+
 			return redirect()->route(config('laraadmin.adminRoute') . '.projects.index');
-			
+
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
+		
 	}
 
 	/**
@@ -89,12 +90,12 @@ class ProjectsController extends Controller
 	public function show($id)
 	{
 		if(Module::hasAccess("Projects", "view")) {
-			
+
 			$project = Project::find($id);
 			if(isset($project->id)) {
 				$module = Module::get('Projects');
 				$module->row = $project;
-				
+
 				return view('la.projects.show', [
 					'module' => $module,
 					'view_col' => $module->view_col,
@@ -120,13 +121,13 @@ class ProjectsController extends Controller
 	 */
 	public function edit($id)
 	{
-		if(Module::hasAccess("Projects", "edit")) {			
+		if(Module::hasAccess("Projects", "edit")) {
 			$project = Project::find($id);
-			if(isset($project->id)) {	
+			if(isset($project->id)) {
 				$module = Module::get('Projects');
-				
+
 				$module->row = $project;
-				
+
 				return view('la.projects.edit', [
 					'module' => $module,
 					'view_col' => $module->view_col,
@@ -152,19 +153,19 @@ class ProjectsController extends Controller
 	public function update(Request $request, $id)
 	{
 		if(Module::hasAccess("Projects", "edit")) {
-			
+
 			$rules = Module::validateRules("Projects", $request, true);
-			
+
 			$validator = Validator::make($request->all(), $rules);
-			
+
 			if ($validator->fails()) {
 				return redirect()->back()->withErrors($validator)->withInput();;
 			}
-			
+
 			$insert_id = Module::updateRow("Projects", $request, $id);
-			
+
 			return redirect()->route(config('laraadmin.adminRoute') . '.projects.index');
-			
+
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
@@ -180,14 +181,14 @@ class ProjectsController extends Controller
 	{
 		if(Module::hasAccess("Projects", "delete")) {
 			Project::find($id)->delete();
-			
+
 			// Redirecting to index() method
 			return redirect()->route(config('laraadmin.adminRoute') . '.projects.index');
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
 	}
-	
+
 	/**
 	 * Datatable Ajax fetch
 	 *
@@ -197,7 +198,7 @@ class ProjectsController extends Controller
 	{
 		$module = Module::get('Projects');
 		$listing_cols = Module::getListingColumns('Projects');
-		
+
 		if(isset($request->filter_column)) {
 			$values = DB::table('projects')->select($listing_cols)->whereNull('deleted_at')->where($request->filter_column, $request->filter_column_value);
 		} else {
@@ -207,9 +208,9 @@ class ProjectsController extends Controller
 		$data = $out->getData();
 
 		$fields_popup = ModuleFields::getModuleFields('Projects');
-		
+
 		for($i=0; $i < count($data->data); $i++) {
-			for ($j=0; $j < count($listing_cols); $j++) { 
+			for ($j=0; $j < count($listing_cols); $j++) {
 				$col = $listing_cols[$j];
 				if($fields_popup[$col] != null && starts_with($fields_popup[$col]->popup_vals, "@")) {
 					$data->data[$i][$j] = ModuleFields::getFieldValue($fields_popup[$col], $data->data[$i][$j]);
@@ -221,13 +222,13 @@ class ProjectsController extends Controller
 				//    $data->data[$i][$j];
 				// }
 			}
-			
+
 			if($this->show_action) {
 				$output = '';
 				if(Module::hasAccess("Projects", "edit")) {
 					$output .= '<a href="'.url(config('laraadmin.adminRoute') . '/projects/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>';
 				}
-				
+
 				if(Module::hasAccess("Projects", "delete")) {
 					$output .= Form::open(['route' => [config('laraadmin.adminRoute') . '.projects.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
 					$output .= ' <button class="btn btn-danger btn-xs" type="submit"><i class="fa fa-times"></i></button>';

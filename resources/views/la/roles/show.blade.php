@@ -4,14 +4,12 @@
 	Role View
 @endsection
 
-
 @section('main-content')
 <div id="page-content" class="profile2">
 	<div class="bg-primary clearfix">
 		<div class="col-md-4">
 			<div class="row">
 				<div class="col-md-3">
-					<!--<img class="profile-image" src="{{ asset('la-assets/img/avatar5.png') }}" alt="">-->
 					<div class="profile-icon text-primary"><i class="fa {{ $module->fa_icon }}"></i></div>
 				</div>
 				<div class="col-md-9">
@@ -31,21 +29,7 @@
 			<div class="dats1"><i class="fa fa-map-marker"></i> Pune, India</div>
 		</div>
 		<div class="col-md-4">
-			<!--
-			<div class="teamview">
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user1-128x128.jpg') }}" alt=""><i class="status-online"></i></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user2-160x160.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user3-128x128.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user4-128x128.jpg') }}" alt=""><i class="status-online"></i></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user5-128x128.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user6-128x128.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user7-128x128.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user8-128x128.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user5-128x128.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user6-128x128.jpg') }}" alt=""><i class="status-online"></i></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user7-128x128.jpg') }}" alt=""></a>
-			</div>
-			-->
+
 			<div class="dats1 pb">
 				<div class="clearfix">
 					<span class="pull-left">Task #1</span>
@@ -84,7 +68,7 @@
 			@la_access("Roles", "edit")
 				<a href="{{ url(config('laraadmin.adminRoute') . '/roles/'.$role->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
 			@endla_access
-			
+
 			@la_access("Roles", "delete")
 				{{ Form::open(['route' => [config('laraadmin.adminRoute') . '.roles.destroy', $role->id], 'method' => 'delete', 'style'=>'display:inline']) }}
 					<button class="btn btn-default btn-delete btn-xs" type="submit"><i class="fa fa-times"></i></button>
@@ -175,7 +159,6 @@
 				</table>
 				<center><input class="btn btn-success" type="submit" name="Save"></center>
 			</form>
-			<!--<div class="text-center p30"><i class="fa fa-list-alt" style="font-size: 100px;"></i> <br> No posts to show</div>-->
 		</div>
 		@endrole
 	</div>
@@ -187,166 +170,11 @@
 @push('styles')
 <link rel="stylesheet" type="text/css" href="{{ asset('la-assets/plugins/datatables/datatables.min.css') }}"/>
 <link rel="stylesheet" type="text/css" href="{{ asset('la-assets/plugins/bootstrap-slider/slider.css') }}"/>
-<style>
-.btn-default{border-color:#D6D3D3}
-.slider .tooltip{display:none !important;}
-.slider.gray .slider-handle{background-color:#888;}
-.slider.orange .slider-handle{background-color:#FF9800;}
-.slider.green .slider-handle{background-color:#8BC34A;}
-
-.guide1{text-align: right;margin: 0px 15px 15px 0px;font-size:16px;}
-.guide1 .fa{font-size:22px;vertical-align:bottom;margin-left:17px;}
-.guide1 .fa.gray{color:#888;}
-.guide1 .fa.orange{color:#FF9800;}
-.guide1 .fa.green{color:#8BC34A;}
-
-.table-access{border:1px solid #CCC;}
-.table-access thead tr{background-color: #DDD;}
-.table-access thead tr th{border-bottom:1px solid #CCC;padding:10px 10px;text-align:center;}
-.table-access thead tr th:first-child{text-align:left;}
-.table-access input[type="checkbox"]{margin-right:5px;vertical-align:text-top;}
-.table-access > tbody > tr > td{border-bottom:1px solid #EEE !important;padding:10px 10px;text-align:center;}
-.table-access > tbody > tr > td:first-child {text-align:left;}
-
-.table-access .tr-access-adv {background:#b9b9b9;}
-.table-access .tr-access-adv .table{margin:0px;}
-.table-access .tr-access-adv > td{padding: 7px 6px;}
-.table-access .tr-access-adv .table-bordered td{padding:10px;}
-</style>
+<link rel="stylesheet" type="text/css" href="{{ asset('la-assets/plugins/bootstrap-slider/slider-handle.css') }}"/>
 @endpush
 
 @push('scripts')
 <script src="{{ asset('la-assets/plugins/datatables/datatables.min.js') }}"></script>
 <script src="{{ asset('la-assets/plugins/bootstrap-slider/bootstrap-slider.js') }}"></script>
-<script>
-$(function () {
-	@role("SUPER_ADMIN")
-	/* ================== Access Control ================== */
-	
-	$('.slider').slider();
-	
-	$(".slider.slider-horizontal").each(function(index) {
-		var field = $(this).next().attr("name");
-		var value = $(this).next().val();
-		console.log(""+field+" ^^^ "+value);
-		switch (value) {
-			case '0':
-				$(this).removeClass("orange");
-				$(this).removeClass("green");
-				$(this).addClass("gray");
-				break;
-			case '1':
-				$(this).removeClass("gray");
-				$(this).removeClass("green");
-				$(this).addClass("orange");
-				break;
-			case '2':
-				$(this).removeClass("gray");
-				$(this).removeClass("orange");
-				$(this).addClass("green");
-				break;
-		}
-	});
-	
-	$('.slider').bind('slideStop', function(event) {
-		if($(this).next().attr("name")) {
-			var field = $(this).next().attr("name");
-			var value = $(this).next().val();
-			console.log(""+field+" = "+value);
-			if(value == 0) {
-				$(this).removeClass("orange");
-				$(this).removeClass("green");
-				$(this).addClass("gray");
-			} else if(value == 1) {
-				$(this).removeClass("gray");
-				$(this).removeClass("green");
-				$(this).addClass("orange");
-			} else if(value == 2) {
-				$(this).removeClass("gray");
-				$(this).removeClass("orange");
-				$(this).addClass("green");
-			}
-		}
-	});	
-	
-	$("#module_select_all,  #view_all").on("change", function() {
-		$(".module_checkb").prop('checked', this.checked);
-		$(".view_checkb").prop('checked', this.checked);
-		$(".edit_checkb").prop('checked', this.checked)
-		$(".create_checkb").prop('checked', this.checked);
-		$(".delete_checkb").prop('checked', this.checked);
-		$("#module_select_all").prop('checked', this.checked);
-		$("#view_all").prop('checked', this.checked);
-		$("#create_all").prop('checked', this.checked);
-		$("#edit_all").prop('checked', this.checked);
-		$("#delete_all").prop('checked', this.checked);		
-	});
-	
-	$(".module_checkb,  .view_checkb").on("change", function() {
-		var val = $(this).attr( "module_id" );
-		$("#module_"+val).prop('checked', this.checked)
-		$("#module_view_"+val).prop('checked', this.checked);
-		$("#module_create_"+val).prop('checked', this.checked)
-		$("#module_edit_"+val).prop('checked', this.checked);
-		$("#module_delete_"+val).prop('checked', this.checked);
-	});
-	
-	$(".create_checkb,  .edit_checkb, .delete_checkb").on("change", function() {
-		var val = $(this).attr( "module_id" );
-		$(this).prop('checked', this.checked);
-		if(!$("#module_"+val).is(':checked')){
-			$("#module_"+val).prop('checked', this.checked);
-		}
-		if(!$("#module_view_"+val).is(':checked')){
-			$("#module_view_"+val).prop('checked', this.checked);
-		}		
-	});
-	
-	$("#create_all").on("change", function() {
-		$(".create_checkb").prop('checked', this.checked);
-		if($('#create_all').is(':checked')){
-			$(".module_checkb").prop('checked', this.checked);
-			$(".view_checkb").prop('checked', this.checked);
-			$("#module_select_all").prop('checked', this.checked);
-			$("#view_all").prop('checked', this.checked);
-		}
-	});
-	
-	$("#edit_all").on("change", function() {
-		$(".edit_checkb").prop('checked', this.checked);
-		if($('#edit_all').is(':checked')){
-			$(".module_checkb").prop('checked', this.checked);
-			$(".view_checkb").prop('checked', this.checked);
-			$("#module_select_all").prop('checked', this.checked);
-			$("#view_all").prop('checked', this.checked);
-		}
-	});
-	
-	$("#delete_all").on("change", function() {
-		$(".delete_checkb").prop('checked', this.checked);
-		if($('#delete_all').is(':checked')){
-			$(".module_checkb").prop('checked', this.checked);
-			$(".view_checkb").prop('checked', this.checked);
-			$("#module_select_all").prop('checked', this.checked);
-			$("#view_all").prop('checked', this.checked);
-		}
-	});
-	
-	$(".hide_row").on("click", function() { 
-		var val = $(this).attr( "module_id" );
-		var $icon = $(".hide_row[module_id="+val+"] > i");
-		if($('.module_fields_'+val).hasClass('hide')) {
-			$('.module_fields_'+val).removeClass('hide');
-			$icon.removeClass('fa-chevron-down');
-			$icon.addClass('fa-chevron-up');
-		} else {
-			$('.module_fields_'+val).addClass('hide');
-			$icon.removeClass('fa-chevron-up');
-			$icon.addClass('fa-chevron-down');
-		}
-	});
-	@endrole
-});
-</script>
+<script src="{{ asset('la-assets/plugins/bootstrap-slider/bootstrap-slider-handle.js') }}"></script>
 @endpush
-
